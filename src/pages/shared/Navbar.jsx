@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../../Context/AuthContext";
+import logoTop from "../../assets/logo/icons8-career-30.png";
 
 const Navbar = () => {
   const { user, logOutUser } = useContext(AuthContext);
@@ -18,13 +19,19 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <a>Item 1</a>
+        <NavLink className="text-xl font-semibold" to="/">
+          Home
+        </NavLink>
       </li>
       <li>
-        <a>Item 2</a>
+        <NavLink className="text-xl font-semibold" to="/">
+          About
+        </NavLink>
       </li>
       <li>
-        <a>Item 3</a>
+        <NavLink className="text-xl font-semibold" to="/">
+          Contact Us
+        </NavLink>
       </li>
     </>
   );
@@ -55,11 +62,11 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
-          Career_Build
+          Career <img src={logoTop} alt="" /> Build
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{links}</ul>
+        <ul className="menu menu-horizontal px-2">{links}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
