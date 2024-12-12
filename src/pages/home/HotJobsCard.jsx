@@ -1,4 +1,6 @@
 import React from "react";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { TbCoinTakaFilled } from "react-icons/tb";
 
 const HotJobsCard = ({ job }) => {
   const {
@@ -12,25 +14,38 @@ const HotJobsCard = ({ job }) => {
   } = job;
 
   return (
-    <div className="card bg-base-300 rounded-md w-80 shadow-xl">
+    <div className="card bg-base-300 rounded-md w-80 cursor-pointer hover:bg-blue-400 shadow-xl">
       <div className="flex justify-center items-center gap-4 m-2">
         <figure>
           <img className="w-20" src={company_logo} />
         </figure>
         <div>
           <h4 className="text-2xl">{company}</h4>
-          <p>{location}</p>
+          <div className="flex justify-center items-center gap-1">
+            <FaMapMarkerAlt></FaMapMarkerAlt>
+            <p>{location}</p>
+          </div>
         </div>
       </div>
       <div className="card-body">
-        <h2 className="card-title">
-          Shoes!
-          <div className="badge badge-secondary">NEW</div>
-        </h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div className="card-actions justify-end">
-          <div className="badge badge-outline">Fashion</div>
-          <div className="badge badge-outline">Products</div>
+        <h2 className="card-title">{title}</h2>
+        <p>{description}</p>
+        <div className="flex gap-2 flex-wrap">
+          {requirements.map((skill) => (
+            <p className="badge badge-outline rounded-md text-center m-2 hover:bg-blue-900 hover:text-white font-bold">
+              {skill}
+            </p>
+          ))}
+        </div>
+        <div className="card-actions justify-start mt-4">
+          <p>
+            Salary: {salaryRange.min} - {salaryRange.max}
+            <div className="flex items-center gap-1">
+              {salaryRange.currency}
+              <TbCoinTakaFilled />
+            </div>
+          </p>
+          <div className="badge badge-outline">Get Explore</div>
         </div>
       </div>
     </div>
