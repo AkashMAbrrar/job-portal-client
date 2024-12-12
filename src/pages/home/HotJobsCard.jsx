@@ -1,10 +1,12 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { TbCoinTakaFilled } from "react-icons/tb";
+import { Link } from "react-router-dom";
 
 const HotJobsCard = ({ job }) => {
   const {
     title,
+    _id,
     company,
     company_logo,
     requirements,
@@ -31,8 +33,10 @@ const HotJobsCard = ({ job }) => {
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>
         <div className="flex gap-2 flex-wrap">
-          {requirements.map((skill) => (
-            <p className="badge badge-outline rounded-md text-center m-2 hover:bg-blue-900 hover:text-white font-bold">
+          {requirements.map((skill, index) => (
+            <p
+              key={skill.index}
+              className="badge badge-outline rounded-md text-center m-2 hover:bg-blue-900 hover:text-white font-bold">
               {skill}
             </p>
           ))}
@@ -45,7 +49,9 @@ const HotJobsCard = ({ job }) => {
               <TbCoinTakaFilled />
             </div>
           </p>
-          <div className="badge badge-outline">Get Explore</div>
+          <Link to={`/jobs/${_id}`}>
+            <div className="badge badge-outline">Apply</div>
+          </Link>
         </div>
       </div>
     </div>
