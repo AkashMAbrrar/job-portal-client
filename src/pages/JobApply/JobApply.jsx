@@ -1,9 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import UseAuth from "../../hooks/UseAuth";
+import Swal from "sweetalert2";
 
 const JobApply = () => {
   const { id } = useParams();
-  console.log(id);
+  const { user } = UseAuth();
+  console.log(id, user);
 
   const handleSubmitJob = (e) => {
     e.preventDefault();
@@ -12,23 +15,52 @@ const JobApply = () => {
     const gitHub = form.github.value;
     const resume = form.resume.value;
     const photo = form.photo.value;
-    console.log({ linkedIn, gitHub, resume, photo });
+    // console.log({ linkedIn, gitHub, resume, photo });
+
+    const jobApplication = {
+      job_id: id,
+      applicant_email: user?.email,
+      linkedIn,
+      gitHub,
+      resume,
+      photo,
+    };
+
+    fetch("http://localhost:3000/job-applications", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(jobApplication),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
     form.reset();
   };
 
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Applying Here !</h1>
-          <p className="py-6">
-            Get Your Dream Job By Applying Here. We Always On Behalf of You.
-            There Is A Few More Steps To Go.
-          </p>
-        </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div className="card bg-base-100 w-3/4  shrink-0 shadow-2xl">
           <form onSubmit={handleSubmitJob} className="card-body">
             <div className="form-control">
+              <h1 className="text-5xl font-bold text-center">
+                Applying Here !
+              </h1>
+              <p className="py-6 text-center">
+                Get Your Dream Job By Applying Here. We Always On Behalf of You.
+                There Is A Few More Steps To Go.
+              </p>
               <label className="label">
                 <span className="label-text">LinkedIn Url</span>
               </label>
