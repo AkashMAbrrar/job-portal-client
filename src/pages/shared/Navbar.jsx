@@ -24,8 +24,8 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink className="text-xl font-semibold" to="/">
-          About
+        <NavLink className="text-xl font-semibold" to="/myApplications">
+          My Applications
         </NavLink>
       </li>
       <li>
