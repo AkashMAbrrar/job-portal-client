@@ -29,8 +29,8 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink className="text-xl font-semibold" to="/">
-          Contact Us
+        <NavLink className="text-xl font-semibold" to="/addJob">
+          Add A Job
         </NavLink>
       </li>
     </>

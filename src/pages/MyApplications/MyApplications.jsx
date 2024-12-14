@@ -61,7 +61,9 @@ const MyApplications = () => {
                 </td>
                 <td>{job.title}</td>
                 <th>
-                  <button className="btn btn-ghost btn-xs">delete</button>
+                  <button className="btn btn-error text-slate-200 font-semibold btn-xs">
+                    delete
+                  </button>
                 </th>
               </tr>
             ))}
