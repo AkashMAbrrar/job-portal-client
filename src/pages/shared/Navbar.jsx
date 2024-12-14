@@ -33,6 +33,11 @@ const Navbar = () => {
           Add A Job
         </NavLink>
       </li>
+      <li>
+        <NavLink className="text-xl font-semibold" to="/myPostedJob">
+          My Posted Jobs
+        </NavLink>
+      </li>
     </>
   );
 
