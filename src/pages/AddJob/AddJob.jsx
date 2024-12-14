@@ -1,12 +1,41 @@
-import React from "react";
+import Swal from "sweetalert2";
+import UseAuth from "../../hooks/UseAuth";
 
 const AddJob = () => {
+  const { user } = UseAuth();
+
   const handleAddJob = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     // console.log(formData.entries());
     const initialData = Object.fromEntries(formData.entries());
     console.log(initialData);
+    const { min, max, currency, ...newJob } = initialData;
+    newJob.salaryRange = { min, max, currency };
+    newJob.requirements = newJob.requirements.split("\n");
+    newJob.responsibility = newJob.responsibility.split("\n");
+    console.log(newJob);
+
+    // send data to the backend
+    fetch("http://localhost:3000/jobs", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newJob),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your job circulation has been added",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   };
 
   // const JobTitle = title;
@@ -88,10 +117,11 @@ const AddJob = () => {
             <label className="label">
               <span className="label-text text-xl font-semibold">Job Type</span>
             </label>
-            <select className="w-full select select-bordered" name="type">
-              <option disabled selected>
-                Pick A Job Type
-              </option>
+            <select
+              defaultValue="Pick A Job"
+              className="w-full select select-bordered"
+              name="type">
+              <option disabled>Pick A Job Type</option>
               <option>Full Time</option>
               <option>Intern</option>
               <option>Part Time</option>
@@ -104,12 +134,13 @@ const AddJob = () => {
                 Job Field
               </span>
             </label>
-            <select className="w-full select select-bordered ">
-              <option disabled selected>
-                Select A Job Field
-              </option>
+            <select
+              defaultValue="Select A Job"
+              className="w-full select select-bordered ">
+              <option disabled>Select A Job Field</option>
               <option>Engineering</option>
               <option>Marketing</option>
+              <option>Management</option>
               <option>Finance</option>
               <option>Banking</option>
               <option>Consultancy</option>
@@ -147,10 +178,11 @@ const AddJob = () => {
             />
           </div>
           <div className="form-control mt-2">
-            <select className="w-full select select-bordered ">
-              <option disabled selected>
-                Currency
-              </option>
+            <select
+              defaultValue="Currency"
+              name="currency"
+              className="w-full select select-bordered">
+              <option disabled>Currency</option>
               <option>BDT</option>
               <option>USD</option>
               <option>INR</option>
@@ -168,13 +200,13 @@ const AddJob = () => {
           <input
             type="text"
             placeholder="Company Name"
-            name="companyName"
+            name="company"
             className="input input-bordered"
             required
           />
         </div>
         {/* company logo */}
-        <div className="grid grid-cols-1 lg:grid-cols-3">
+        <div className="grid grid-cols-1 lg:grid-cols-4">
           <div className="form-control">
             <label className="label">
               <span className="label-text text-xl font-semibold">Job Logo</span>
@@ -182,7 +214,7 @@ const AddJob = () => {
             <input
               type="url"
               placeholder="Job Logo"
-              name="logo"
+              name="company_logo"
               className="input input-bordered"
               required
             />
@@ -197,7 +229,23 @@ const AddJob = () => {
             <input
               type="email"
               placeholder="hr Email"
+              defaultValue={user?.email}
               name="hrEmail"
+              className="input input-bordered"
+              required
+            />
+          </div>
+          {/* application deadline */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-xl font-semibold">
+                Application Deadline
+              </span>
+            </label>
+            <input
+              type="date"
+              placeholder="Deadline"
+              name="applicationDeadline"
               className="input input-bordered"
               required
             />
